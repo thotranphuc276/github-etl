@@ -2,6 +2,7 @@ import logging
 import os
 import time
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 import requests
 from dateutil import parser
@@ -80,7 +81,8 @@ class GitHubExtractor:
         """
         logger.info(f"Fetching commits for {owner}/{repo} from the last {months} months")
 
-        since_date = datetime.now() - timedelta(days=30 * months)
+        since_date = datetime.now() - relativedelta(months=months)
+        logger.info(f"Since date: {since_date}")
         since_str = since_date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
         url = f"{self.base_url}/repos/{owner}/{repo}/commits"
